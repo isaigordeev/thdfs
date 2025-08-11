@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: hadoop-datanode
+spec:
+  serviceName: "hadoop-datanode"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hadoop-datanode
+  template:
+    metadata:
+      labels:
+        app: hadoop-datanode
+    spec:
+      containers:
+        - name: datanode
+          image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+          ports:
+            - containerPort: 9864
+          env:
+            - name: CLUSTER_NAME
+              value: "hadoop-cluster"
+          volumeMounts:
+            - name: datanode-storage
+              mountPath: /hadoop/dfs/data
+  volumeClaimTemplates:
+    - metadata:
+        name: datanode-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
