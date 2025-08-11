@@ -1,0 +1,15 @@
+#!/bin/bash
+set -e
+
+# Find the NameNode pod name
+HDFS_NAMENODE_POD=$(kubectl get pods -l app=hadoop-namenode -o jsonpath="{.items[0].metadata.name}")
+
+echo "Uploading local data to HDFS..."
+
+# Create directory in HDFS if it doesn't exist
+kubectl exec -it "$HDFS_NAMENODE_POD" -- hdfs dfs -mkdir -p /user/data
+
+# Upload local files to HDFS directory
+kubectl exec -it "$HDFS_NAMENODE_POD" -- hdfs dfs -put /local/path/to/data/* /user/data/
+
+echo "Data uploaded to HDFS."
