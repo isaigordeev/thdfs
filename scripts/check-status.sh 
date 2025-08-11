@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Hadoop cluster pod status:"
+kubectl get pods -l app=hadoop-namenode
+kubectl get pods -l app=hadoop-datanode
+
+echo "NameNode logs:"
+kubectl logs -l app=hadoop-namenode --tail=20
+
+echo "DataNode logs:"
+for pod in $(kubectl get pods -l app=hadoop-datanode -o jsonpath="{.items[*].metadata.name}"); do
+  echo "Logs for pod $pod:"
+  kubectl logs $pod --tail=20
+  echo "----------------------"
+done
