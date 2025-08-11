@@ -4,8 +4,10 @@ metadata:
   name: hadoop-namenode
 spec:
   ports:
-    - port: 9000
-      name: namenode
+    - name: namenode
+      protocol: TCP
+      port: 8020
+      targetPort: 8020
   clusterIP: None
   selector:
     app: hadoop-namenode

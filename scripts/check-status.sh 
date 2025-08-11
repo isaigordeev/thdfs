@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "Hadoop cluster pod status:"
 kubectl get pods -l app=hadoop-namenode
