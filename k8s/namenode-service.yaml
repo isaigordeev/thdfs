@@ -8,6 +8,11 @@ spec:
       protocol: TCP
       port: 8020
       targetPort: 8020
+    - protocol: TCP
+      port: 9870
+      targetPort: 9870
+      nodePort: 30970
+      name: web-monitoring
   clusterIP: None
   selector:
     app: hadoop-namenode
